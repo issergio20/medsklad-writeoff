@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тупиковые состояния</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 24px 80px; display: flex; flex-direction: column; gap: 28px; }
+  .intro h1 { font-size: 26px; margin-bottom: 6px; }
+  .intro p { color: var(--muted); margin: 0; max-width: 820px; }
+  .case { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; display: grid; grid-template-columns: 1fr 470px; overflow: hidden; }
+  .case-txt { padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .case-txt h2 { font-size: 19px; }
+  .case-txt .k { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .case-txt p { margin: 0; }
+  .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+  .case-mock { background: #eceef2; padding: 20px; display: flex; flex-direction: column; gap: 10px; border-left: 1px solid var(--border); }
+  .num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--text); color: #fff; font-weight: 700; font-size: 14px; margin-right: 8px; }
+  /* вайрфрейм */
+  .wf { background: #fff; border: 1.5px solid #9aa3af; border-radius: 10px; padding: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+  .wf.phone { width: 280px; align-self: center; border-radius: 24px; padding: 16px 14px; }
+  .wf .h { font-weight: 700; font-size: 14px; }
+  .wf .row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #c9ced6; }
+  .wf .row:last-child { border-bottom: 0; }
+  .wf .bar { height: 10px; border-radius: 5px; background: #d5d9df; }
+  .wf .btnw { height: 40px; border-radius: 8px; border: 1.5px solid #6b7480; display: grid; place-items: center; font-weight: 600; }
+  .wf .btnw.p { background: #2b313a; color: #fff; border-color: #2b313a; }
+  .wf .btnw.big { height: 52px; border-radius: 12px; }
+  .wf .muted { color: var(--muted); font-size: 12px; }
+  .lbl-s { font-size: 11px; color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .nurse { display: grid; grid-template-columns: 340px 1fr; gap: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); }
+  .n-list { border-right: 1px solid var(--border); background: var(--surface-2); }
+  .n-item { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .n-item.on { background: var(--surface); box-shadow: inset 3px 0 0 var(--pku); }
+  .n-item b { display: block; font-size: 14px; }
+  .n-main { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .facts div { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+  .facts small { display: block; color: var(--muted); font-size: 11.5px; }
+  .hist { font-size: 13px; border: 1px solid var(--border); border-radius: 8px; }
+  .hist div { display: flex; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid var(--border); }
+  .hist div:last-child { border-bottom: 0; }
+  .photo { height: 140px; border-radius: 8px; background: repeating-linear-gradient(45deg, #dfe3e8, #dfe3e8 8px, #eef0f3 8px, #eef0f3 16px); display: grid; place-items: center; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><b>Прототип · Тупиковые состояния (5 из 5) + экран старшей медсестры</b><span class="sep"></span><a href="index.html">← Все прототипы</a></div>
+<div class="wrap">
+  <div class="intro"><h1>Тупиковые состояния</h1><p>Вайрфреймы. Для каждого случая — что видит человек, что делает дальше и какое допущение мы приняли. Принцип: у тупика всегда есть выход, и он не дороже обходного пути.</p></div>
+
+  <!-- T1 -->
+  <section class="case">
+    <div class="case-txt">
+      <h2><span class="num">1</span>Просрочку нужно списать сегодня, но остаток уйдёт ниже неснижаемого</h2>
+      <div class="k">Почему тупик</div><p>Два правила противоречат друг другу: «ниже неснижаемого нельзя» и «просрочку держать нельзя».</p>
+      <div class="k">Решение</div><p><b>Неснижаемый остаток считаем только по годным единицам.</b> С причиной «Срок годности» ограничение превращается из ошибки в предупреждение. Документ проводится, а заявка на пополнение создаётся автоматически и уходит закупщику.</p>
+      <div class="k">Что человек делает дальше</div>
+      <ol class="steps"><li>Сканирует флаконы, выбирает «Срок годности».</li><li>Видит жёлтое предупреждение (не красное) и проводит.</li><li>Получает подтверждение: «Создана заявка ЗП-0311 на 20 фл.».</li></ol>
+      <div class="k">Если выбрал не ту причину</div><p>С причиной «В кабинет» будет ошибка: «Ниже неснижаемого: можно списать 4. Если упаковка просрочена — выберите «Срок годности»». Ошибка сама подсказывает выход.</p>
+    </div>
+    <div class="case-mock">
+      <div class="wf"><div class="h">Натрия хлорид 0,9 %, фл. 250 мл</div><div class="muted">Остаток 24 · неснижаемый 20 · <b>просрочено 8</b></div>
+        <div class="row"><span>Причина</span><b>⌛ Срок годности</b></div>
+        <div class="row"><span>Количество</span><b>[ 8 ] фл.</b></div>
+        <div class="banner warn" style="padding:8px 10px"><div class="b-ico">!</div><div class="b-body" style="font-size:12.5px">Остаток станет 16 — ниже неснижаемого (20). Просрочку всё равно нужно списать сегодня. <b>После проведения создадим заявку на пополнение на 4 фл.</b></div></div>
+        <div class="btnw p">Провести</div>
+      </div>
+      <div class="wf"><div class="h">✓ Проведено · СП-0144</div><div class="muted">Заявка ЗП-0311 «Натрия хлорид 0,9 %, 250 мл — 4 фл.» отправлена закупщику</div></div>
+    </div>
+  </section>
+
+  <!-- T2 -->
+  <section class="case">
+    <div class="case-txt">
+      <h2><span class="num">2</span>Двадцать обычных позиций и один учётный флакон, старшая медсестра в отпуске</h2>
+      <div class="k">Почему тупик</div><p>Учётный с причиной «Бой и порча» требует подтверждения до проведения. Если ждать, двадцать обычных позиций тоже зависнут, а остатки разойдутся с реальностью.</p>
+      <div class="k">Решение</div><p>По умолчанию документ <b>делится на два</b> с одной и той же причиной: 20 позиций проводятся сразу, учётный уходит отдельным документом. Подтверждает <b>заместитель</b> — роль назначается на период отпуска. Это видно ещё в окне подтверждения, а не после.</p>
+      <div class="k">Что человек делает дальше</div>
+      <ol class="steps"><li>Нажимает «Провести…», видит: «Запрос получит Петрова А. С. (замещает Иванову Н. П.)».</li><li>Проводит. 20 позиций списаны, 1 амп. в резерве.</li><li>Если ответа нет до конца смены — напоминание заместителю и эскалация главной медсестре.</li></ol>
+      <div class="k">Допущение</div><p>Если заместитель не назначен, запрос уходит главной медсестре. Пустого получателя система не допускает.</p>
+      <p><a href="desktop.html">Открыть в прототипе → «20 обычных + 1 учётный» + «медсестра в отпуске»</a></p>
+    </div>
+    <div class="case-mock">
+      <div class="wf"><div class="h">Проверьте перед проведением</div>
+        <div class="row"><span>◉ <b>Разделить на два документа</b> (рекомендуем)</span></div>
+        <div class="row"><span>○ Одним документом — всё ждёт подтверждения</span></div>
+        <div class="row"><span>✓ Спишется сразу</span><b>20 поз.</b></div>
+        <div class="row"><span>◆ На подтверждение · <b>Петрова А. С.</b><br><span class="muted">замещает Иванову Н. П. до 28.10</span></span><b>1 амп.</b></div>
+        <div class="muted">Пока не ответили: 1 амп. в резерве — числится на остатке, но списать её другим документом нельзя.</div>
+        <div class="btnw p">Провести 20 и отправить 1 на подтверждение</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T3 -->
+  <section class="case">
+    <div class="case-txt">
+      <h2><span class="num">3</span>На упаковке учётного нет штрихкода, серия нечитаема</h2>
+      <div class="k">Почему тупик</div><p>Нельзя отсканировать, а серия обязательна. Если серию «придумать», это подлог. Если не списывать — флакон останется на остатке.</p>
+      <div class="k">Решение</div><p>Поиск по названию. Серию выбирают из тех, что есть на остатке: система знает их из приходов, обычно их 1–3. Если определить серию нельзя, есть кнопка «Не могу прочитать серию» и фото упаковки. Такая строка <b>всегда</b> уходит на подтверждение, и серию выбирает старшая медсестра — именно она за неё отвечает.</p>
+      <div class="k">Что человек делает дальше</div>
+      <ol class="steps"><li>«Нет штрихкода → найти по названию».</li><li>«Не могу прочитать серию» → фото.</li><li>Комментарий одним касанием → «Отправить на подтверждение».</li></ol>
+      <p><a href="mobile.html">Открыть в прототипе → сценарий ③</a></p>
+    </div>
+    <div class="case-mock">
+      <div class="wf phone"><div class="h">🛡 Спирт этиловый 95 %, 100 мл</div>
+        <div class="lbl-s">СЕРИЯ *</div>
+        <div class="btnw">С-0924 · 12 фл. · до 09.2029</div>
+        <div class="btnw">С-1124 · 10 фл. · до 11.2029</div>
+        <div class="btnw" style="border-style:dashed;background:#f1ebfb">✓ Не могу прочитать серию</div>
+        <div class="btnw">📷 Фото прикреплено ✓</div>
+        <div class="btnw big p">Отправить на подтверждение</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T4 -->
+  <section class="case">
+    <div class="case-txt">
+      <h2><span class="num">4</span>Связь пропала после скана, коробку уже отдали в кабинет</h2>
+      <div class="k">Почему тупик</div><p>Без проверки на сервере проводить нельзя, но и терять ввод нельзя. Физически материал уже ушёл со склада.</p>
+      <div class="k">Решение</div><p>Офлайн-очередь на устройстве. Статус честный: <b>«Не проведено — ждёт сети»</b>. При появлении связи — автоматическая проверка и проведение. Если сервер откажет (остаток изменился), придёт push с готовым действием.</p>
+      <div class="k">Что человек делает дальше</div>
+      <ol class="steps"><li>Видит «Сохранено на телефоне. Коробку можно отдавать».</li><li>Продолжает сканировать — всё копится в очереди.</li><li>Связь вернулась → «2 позиции проведены» или карточка ошибки: «Списать 8 — сколько есть» / «Разберусь с компьютера».</li></ol>
+      <div class="k">Допущение</div><p>Очередь хранится на устройстве до 24 ч. Если терминал выключат, черновик доступен на десктопе после ближайшей синхронизации.</p>
+      <p><a href="mobile.html">Открыть в прототипе → сценарии ④ и ⑤</a></p>
+    </div>
+    <div class="case-mock">
+      <div class="wf phone"><div class="muted" style="color:#8a5300">⚠ Нет связи — сохраняем на телефоне</div>
+        <div style="text-align:center;font-size:30px">⏳</div><div class="h" style="text-align:center">Сохранено на телефоне</div>
+        <div class="muted" style="text-align:center">Проведём, как появится связь. <b>Коробку можно отдавать.</b></div>
+        <div class="btnw big p">Сканировать следующее</div></div>
+      <div class="wf phone" style="border-color:var(--danger)"><div class="h" style="color:var(--danger)">✕ Не проведено: перчатки L</div>
+        <div class="muted">На сервере доступно 8, вы списали 10</div>
+        <div class="btnw big p">Списать 8 — сколько есть</div><div class="btnw">Разберусь с компьютера</div></div>
+    </div>
+  </section>
+
+  <!-- T5 -->
+  <section class="case">
+    <div class="case-txt">
+      <h2><span class="num">5</span>Провели вчера в 23:50, ошибку заметили сегодня в 09:00</h2>
+      <div class="k">Почему тупик</div><p>Редактировать нельзя, окно отмены («тот же день») закрылось в 23:59.</p>
+      <div class="k">Решение</div>
+      <p><b>Профилактика:</b> в 23:50 окно подтверждения показывает «Отменить можно ещё 9 минут» и предлагает сохранить черновик, если есть сомнения.</p>
+      <p><b>Выход:</b> вместо отмены — <b>корректирующий документ «Сторно»</b> со ссылкой на исходный. Он возвращает выбранные позиции (не обязательно все) на остаток с причиной «Исправление ошибки». Для учётных сторно подтверждает медсестра. Исходный документ остаётся неизменным, история прозрачна для проверяющих и бухгалтера.</p>
+      <div class="k">Допущение</div><p>«День» — календарный день по часовому поясу склада, а не 24 часа. Сторно — новый тип документа, его нужно согласовать с бухгалтерией.</p>
+    </div>
+    <div class="case-mock">
+      <div class="wf"><div class="h">СП-0139 · проведён 13.10 в 23:50</div>
+        <div class="muted">Окно отмены закрылось 13.10 в 23:59</div>
+        <div class="btnw" style="opacity:.4">Отменить списание (недоступно)</div>
+        <div class="btnw p">Исправить ошибку → создать сторно</div></div>
+      <div class="wf"><div class="h">Сторно к СП-0139</div>
+        <div class="row"><span>☑ Шприц 5 мл 22G</span><b>вернуть [ 180 ] из 200</b></div>
+        <div class="row"><span>☐ Бинт 7 м × 14 см</span><b>—</b></div>
+        <div class="row"><span>Что пошло не так *</span><span class="muted">«Лишний ноль при вводе»</span></div>
+        <div class="btnw p">Провести сторно</div></div>
+    </div>
+  </section>
+
+  <!-- Nurse -->
+  <section id="nurse">
+    <h2 style="font-size:22px;margin-bottom:6px">Дополнительно: запрос глазами старшей медсестры</h2>
+    <p style="color:var(--muted);margin:0 0 14px;max-width:820px">Цель — решить, не ходя на склад. Для этого на экране есть всё, что спросят проверяющие: кто списал, сколько, серия, остаток до и после, фото, история этого материала за 30 дней. Отклонить без причины нельзя: кладовщик должен понимать, что исправить.</p>
+    <div class="nurse">
+      <div class="n-list">
+        <div class="n-item on"><b>СП-0143 · Морфин 10 мг/мл</b>1 амп. · Бой и порча · Смирнов И. А.<br><span class="muted">14:22 · ждёт 5 мин</span></div>
+        <div class="n-item"><b>СП-0145 · Спирт этиловый 95 %</b>1 фл. · Бой и порча · серия не определена<br><span class="muted">13:05 · ждёт 1 ч 20 мин</span></div>
+      </div>
+      <div class="n-main">
+        <div style="display:flex;gap:10px;align-items:center"><h3 style="font-size:18px">Морфин р-р д/ин. 10 мг/мл, амп. 1 мл</h3><span class="pku">🛡 Учётный</span></div>
+        <div class="facts">
+          <div><small>Причина</small>💥 Бой и порча</div><div><small>Количество</small><b>1 амп.</b></div>
+          <div><small>Серия</small>М-230411 · до 04.2027</div><div><small>Остаток серии</small>9 → <b>8</b> амп.</div>
+        </div>
+        <div><small style="color:var(--muted)">Комментарий кладовщика</small><div>«Разбита ампула при выдаче»</div></div>
+        <div class="photo">📷 Фото осколков · 14:21</div>
+        <div><small style="color:var(--muted)">История по материалу за 30 дней</small>
+          <div class="hist"><div><span>02.10 · выдано в 305 · серия М-230411</span><span>2 амп.</span></div><div><span>18.09 · бой · серия М-230411 · подтвердила Иванова Н. П.</span><span>1 амп.</span></div></div></div>
+        <div style="display:flex;gap:10px"><button class="btn primary" style="height:42px">Подтвердить списание</button><button class="btn" style="height:42px">Отклонить — с причиной…</button><button class="btn ghost" style="height:42px">Запросить уточнение</button></div>
+        <div class="note">Если медсестра отклонит запрос, резерв снимется, а кладовщик получит уведомление с её комментарием. Если серия не определена (СП-0145), вместо «Подтвердить» показывается выбор серии из остатка.</div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

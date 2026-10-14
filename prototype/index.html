@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Списание материалов — прототипы</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 30px; margin-bottom: 8px; }
+  .lead { color: var(--muted); font-size: 16px; max-width: 760px; margin: 0 0 28px; }
+  .flow { display: flex; gap: 10px; align-items: stretch; margin-bottom: 28px; flex-wrap: wrap; }
+  .flow .st { flex: 1; min-width: 160px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 13px; }
+  .flow .st b { display: block; font-size: 14px; margin-bottom: 2px; }
+  .flow .ar { align-self: center; color: var(--faint); font-size: 20px; }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; color: inherit; transition: box-shadow .15s; }
+  .card:hover { box-shadow: var(--shadow); border-color: var(--border-strong); }
+  .card h2 { font-size: 18px; margin-bottom: 6px; }
+  .card p { margin: 0 0 10px; color: var(--muted); }
+  .card ul { margin: 0; padding-left: 18px; font-size: 13px; }
+  .k { font-size: 11.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Списание материалов со склада</h1>
+  <p class="lead">Интерактивные прототипы к тестовому заданию Product Designer. Главная мысль: <b>честный путь должен быть дешевле обходного</b>. Кладовщик выбирает причину у каждой позиции, а документы по причинам собирает система. Контроль включается только на учётных материалах.</p>
+
+  <div class="flow">
+    <div class="st"><b>Скан / поиск</b>метка «Учётный» и ограничения видны до добавления</div><div class="ar">→</div>
+    <div class="st"><b>Форма</b>склад → причина → строки, все блокеры списком</div><div class="ar">→</div>
+    <div class="st"><b>Подтверждение</b>что спишется сразу, что ждёт медсестру, окно отмены</div><div class="ar">→</div>
+    <div class="st"><b>Результат</b>проведено / резерв / отмена до 23:59</div>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="desktop.html"><div class="k">Экраны 1 и 2 · десктоп 1440</div><h2>Форма списания и подтверждение</h2><p>Полностью интерактивно, сценарии — в тёмной панели сверху.</p>
+      <ul><li>Склад не выбран / пустая таблица / один склад</li><li>Конфликт «Прочее» ↔ учётные (в обе стороны)</li><li>60 позиций: фильтр ошибок, список блокеров со ссылками на строки</li><li>Разделение документа, медсестра в отпуске, 23:50</li></ul></a>
+    <a class="card" href="mobile.html"><div class="k">Экран 3 · мобильный</div><h2>Быстрое списание с терминала</h2><p>Одна рука, перчатки, скан. Счётчик касаний и секунд.</p>
+      <ul><li>Обычный материал: скан + 1 касание</li><li>Учётный: DataMatrix / выбор серии / фото</li><li>Офлайн-очередь и отказ сервера</li><li>Документы дня по причинам</li></ul></a>
+    <a class="card" href="deadends.html"><div class="k">Тупики · вайрфреймы</div><h2>5 из 5 тупиковых состояний</h2><p>Для каждого: что видит человек, что делает дальше, допущение.</p>
+      <ul><li>Просрочка ниже неснижаемого</li><li>20 + 1 учётный, медсестра в отпуске</li><li>Нет штрихкода и серии · нет связи · ошибка после полуночи</li></ul></a>
+    <a class="card" href="deadends.html#nurse"><div class="k">Дополнительно</div><h2>Запрос глазами старшей медсестры</h2><p>Всё, чтобы решить, не ходя на склад: фото, серия, история, остаток до и после.</p></a>
+  </div>
+  <p style="margin-top:28px;color:var(--muted);font-size:13px">Разбор задания и решения — в папке <code>docs/</code>.</p>
+</div>
+</body>
+</html>
