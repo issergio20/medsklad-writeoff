@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Прототипы: запустить сервер",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/serve.ps1"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "serve",
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activeBegins": true, "beginsPattern": "^Serving", "endsPattern": "^Serving" }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Прототипы: открыть в браузере",
+      "type": "shell",
+      "command": "start http://localhost:8765/",
+      "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
+      "dependsOn": "Прототипы: запустить сервер",
+      "problemMatcher": []
+    }
+  ]
+}

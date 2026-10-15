@@ -1,0 +1,12 @@
+{
+  "name": "МедСклад — сборка экранов",
+  "id": "medsklad-screens-local",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "menu": [
+    { "name": "Мобильные экраны (M1–M8)", "command": "mobile" },
+    { "name": "Подтверждение и результат (D3–D4)", "command": "d3d4" }
+  ]
+}

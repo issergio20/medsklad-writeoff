@@ -1,0 +1,10 @@
+{
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "[markdown]": { "editor.wordWrap": "on" },
+  "cSpell.language": "en,ru",
+  "cSpell.words": ["МедСклад", "ПКУ", "неснижаемый", "неснижаемого", "сторно", "DataMatrix", "Figma"],
+  "search.exclude": { "**/.claude": true }
+}

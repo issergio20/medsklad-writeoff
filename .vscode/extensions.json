@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "figma.figma-vscode-extension",
+    "esbenp.prettier-vscode",
+    "yzhang.markdown-all-in-one",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-russian"
+  ]
+}

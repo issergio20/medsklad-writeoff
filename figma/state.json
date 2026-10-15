@@ -1,0 +1,32 @@
+{
+  "runId": "medsklad-figma-2026-10-15",
+  "fileKey": "1RCh1MB57sbe1fwBMUEwwI",
+  "fileUrl": "https://www.figma.com/design/1RCh1MB57sbe1fwBMUEwwI",
+  "plan": "team::1197490388134679672 (Свои проекты, Starter)",
+  "stoppedBy": "Figma MCP tool call limit on Starter plan (2026-10-15)",
+  "pages": { "cover": "4:3", "screens": "4:2", "components": "0:1" },
+  "collection": "VariableCollectionId:4:4",
+  "completedSteps": [
+    "foundations: 69 variables (color/spacing/radius/size), 22 text styles (Inter), 4 effect styles",
+    "components page: icon/pku-shield, PkuBadge, Button(24), IconButton, Tag(5), StatusMark(4), InlineMessage(3), Field(7), ReasonSegment(4), FilterChip(2), Banner(4), Toast(2), ScanIndicator(2), SpecNote",
+    "components page: CommentChip, TableHeader, MaterialRow(5), SearchResult(2), TotalsBar(2), ConfirmGroup(2), IrreversibleNote(2), AppHeader",
+    "components page: MobileStatusBar(2), MobileTopbar, TouchButton(5), Stepper(3), ReasonTile(4), TouchChip(2), SeriesButton(4), MaterialCard(2), DayDocument(3)",
+    "screens page: section label 12:2, D1 12:5 + D1b 12:65 + 4 notes; D2 13:39 (dropdown 13:403) + 5 notes, bottom y=3044"
+  ],
+  "next": [
+    "MOBILE FIRST (user request): run figma/next-mobile.js — 8 screens M1-M8 at y=4620 on Screens page",
+    "D3 confirmation modal + D4 result (script: figma/next-d3-d4.js, start y=3220)",
+    "Mobile row: M1 scan, M2 regular item, M3 pku item, M4 done, M5 offline saved, M6 today + sync error, M7 below-min error + notes",
+    "Dead ends T1-T5 + nurse view wireframes + notes",
+    "Cover page: title, flow diagram, links to sections",
+    "Final full-page screenshot check of Screens page (notes overlap)"
+  ],
+  "components": {
+    "icon/pku-shield": "6:7", "PkuBadge": "6:11", "Button": "6:66", "IconButton": "6:67", "Tag": "6:82", "StatusMark": "6:106",
+    "InlineMessage": "6:119", "Field": "6:159", "ReasonSegment": "6:172", "FilterChip": "6:180", "Banner": "6:209", "Toast": "6:218",
+    "ScanIndicator": "6:228", "SpecNote": "6:232", "CommentChip": "8:5", "TableHeader": "8:10", "MaterialRow": "8:251",
+    "SearchResult": "8:287", "TotalsBar": "8:333", "ConfirmGroup": "8:380", "IrreversibleNote": "8:390", "AppHeader": "8:391",
+    "MobileStatusBar": "10:99", "MobileTopbar": "10:100", "TouchButton": "10:124", "Stepper": "10:161", "ReasonTile": "10:175",
+    "TouchChip": "10:183", "SeriesButton": "10:199", "MaterialCard": "10:225", "DayDocument": "10:259"
+  }
+}

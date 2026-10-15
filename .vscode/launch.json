@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Прототипы в Edge",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:8765/",
+      "preLaunchTask": "Прототипы: запустить сервер"
+    },
+    {
+      "name": "Прототипы в Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8765/",
+      "preLaunchTask": "Прототипы: запустить сервер"
+    }
+  ]
+}
