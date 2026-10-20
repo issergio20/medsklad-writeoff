@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "anthropic.claude-code",
     "figma.figma-vscode-extension",
     "esbenp.prettier-vscode",
     "yzhang.markdown-all-in-one",

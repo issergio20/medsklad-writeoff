@@ -21,6 +21,15 @@
       "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
       "dependsOn": "Прототипы: запустить сервер",
       "problemMatcher": []
+    },
+    {
+      "label": "Claude: открыть в терминале",
+      "type": "shell",
+      "command": "claude",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "focus": true, "panel": "dedicated" }
     }
   ]
 }

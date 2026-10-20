@@ -6,6 +6,7 @@
   "editorType": ["figma"],
   "documentAccess": "dynamic-page",
   "menu": [
+    { "name": "Обложка и сценарий", "command": "cover" },
     { "name": "Мобильные экраны (M1–M8)", "command": "mobile" },
     { "name": "Подтверждение и результат (D3–D4)", "command": "d3d4" }
   ]
