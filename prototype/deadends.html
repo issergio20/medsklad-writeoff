@@ -15,17 +15,17 @@
   .case-txt .k { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
   .case-txt p { margin: 0; }
   .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
-  .case-mock { background: #eceef2; padding: 20px; display: flex; flex-direction: column; gap: 10px; border-left: 1px solid var(--border); }
-  .num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--text); color: #fff; font-weight: 700; font-size: 14px; margin-right: 8px; }
+  .case-mock { background: var(--bg); padding: 20px; display: flex; flex-direction: column; gap: 10px; border-left: 1px solid var(--border); }
+  .num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 14px; margin-right: 8px; }
   /* вайрфрейм */
-  .wf { background: #fff; border: 1.5px solid #9aa3af; border-radius: 10px; padding: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+  .wf { background: var(--surface); border: 1.5px solid var(--divider); border-radius: 10px; padding: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
   .wf.phone { width: 280px; align-self: center; border-radius: 24px; padding: 16px 14px; }
   .wf .h { font-weight: 700; font-size: 14px; }
-  .wf .row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #c9ced6; }
+  .wf .row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--divider); }
   .wf .row:last-child { border-bottom: 0; }
-  .wf .bar { height: 10px; border-radius: 5px; background: #d5d9df; }
-  .wf .btnw { height: 40px; border-radius: 8px; border: 1.5px solid #6b7480; display: grid; place-items: center; font-weight: 600; }
-  .wf .btnw.p { background: #2b313a; color: #fff; border-color: #2b313a; }
+  .wf .bar { height: 10px; border-radius: 5px; background: var(--divider); }
+  .wf .btnw { height: 40px; border-radius: 8px; border: 1.5px solid var(--border-strong); display: grid; place-items: center; font-weight: 600; }
+  .wf .btnw.p { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
   .wf .btnw.big { height: 52px; border-radius: 12px; }
   .wf .muted { color: var(--muted); font-size: 12px; }
   .lbl-s { font-size: 11px; color: var(--muted); }
@@ -42,7 +42,7 @@
   .hist { font-size: 13px; border: 1px solid var(--border); border-radius: 8px; }
   .hist div { display: flex; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid var(--border); }
   .hist div:last-child { border-bottom: 0; }
-  .photo { height: 140px; border-radius: 8px; background: repeating-linear-gradient(45deg, #dfe3e8, #dfe3e8 8px, #eef0f3 8px, #eef0f3 16px); display: grid; place-items: center; color: var(--muted); }
+  .photo { height: 140px; border-radius: 8px; background: repeating-linear-gradient(45deg, var(--divider), var(--divider) 8px, var(--surface-2) 8px, var(--surface-2) 16px); display: grid; place-items: center; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -62,7 +62,7 @@
     </div>
     <div class="case-mock">
       <div class="wf"><div class="h">Натрия хлорид 0,9 %, фл. 250 мл</div><div class="muted">Остаток 24 · неснижаемый 20 · <b>просрочено 8</b></div>
-        <div class="row"><span>Причина</span><b>⌛ Срок годности</b></div>
+        <div class="row"><span>Причина</span><b><i data-ic="hourglass"></i> Срок годности</b></div>
         <div class="row"><span>Количество</span><b>[ 8 ] фл.</b></div>
         <div class="banner warn" style="padding:8px 10px"><div class="b-ico">!</div><div class="b-body" style="font-size:12.5px">Остаток станет 16 — ниже неснижаемого (20). Просрочку всё равно нужно списать сегодня. <b>После проведения создадим заявку на пополнение на 4 фл.</b></div></div>
         <div class="btnw p">Провести</div>
@@ -105,12 +105,12 @@
       <p><a href="mobile.html">Открыть в прототипе → сценарий ③</a></p>
     </div>
     <div class="case-mock">
-      <div class="wf phone"><div class="h">🛡 Спирт этиловый 95 %, 100 мл</div>
+      <div class="wf phone"><div class="h"><span class="pku">Учётный</span> Спирт этиловый 95 %, 100 мл</div>
         <div class="lbl-s">СЕРИЯ *</div>
         <div class="btnw">С-0924 · 12 фл. · до 09.2029</div>
         <div class="btnw">С-1124 · 10 фл. · до 11.2029</div>
-        <div class="btnw" style="border-style:dashed;background:#f1ebfb">✓ Не могу прочитать серию</div>
-        <div class="btnw">📷 Фото прикреплено ✓</div>
+        <div class="btnw" style="border-style:dashed;background:var(--pku-bg)">✓ Не могу прочитать серию</div>
+        <div class="btnw"><i data-ic="camera"></i> Фото прикреплено ✓</div>
         <div class="btnw big p">Отправить на подтверждение</div>
       </div>
     </div>
@@ -128,8 +128,8 @@
       <p><a href="mobile.html">Открыть в прототипе → сценарии ④ и ⑤</a></p>
     </div>
     <div class="case-mock">
-      <div class="wf phone"><div class="muted" style="color:#8a5300">⚠ Нет связи — сохраняем на телефоне</div>
-        <div style="text-align:center;font-size:30px">⏳</div><div class="h" style="text-align:center">Сохранено на телефоне</div>
+      <div class="wf phone"><div class="muted" style="color:var(--warn)"><i data-ic="triangle-alert"></i> Нет связи — сохраняем на телефоне</div>
+        <div style="text-align:center;color:var(--faint)"><i data-ic="wifi-off" data-cls="xl"></i></div><div class="h" style="text-align:center">Сохранено на телефоне</div>
         <div class="muted" style="text-align:center">Проведём, как появится связь. <b>Коробку можно отдавать.</b></div>
         <div class="btnw big p">Сканировать следующее</div></div>
       <div class="wf phone" style="border-color:var(--danger)"><div class="h" style="color:var(--danger)">✕ Не проведено: перчатки L</div>
@@ -171,13 +171,13 @@
         <div class="n-item"><b>СП-0145 · Спирт этиловый 95 %</b>1 фл. · Бой и порча · серия не определена<br><span class="muted">13:05 · ждёт 1 ч 20 мин</span></div>
       </div>
       <div class="n-main">
-        <div style="display:flex;gap:10px;align-items:center"><h3 style="font-size:18px">Морфин р-р д/ин. 10 мг/мл, амп. 1 мл</h3><span class="pku">🛡 Учётный</span></div>
+        <div style="display:flex;gap:10px;align-items:center"><h3 style="font-size:18px">Морфин р-р д/ин. 10 мг/мл, амп. 1 мл</h3><span class="pku">Учётный</span></div>
         <div class="facts">
-          <div><small>Причина</small>💥 Бой и порча</div><div><small>Количество</small><b>1 амп.</b></div>
+          <div><small>Причина</small><i data-ic="package-x"></i> Бой и порча</div><div><small>Количество</small><b>1 амп.</b></div>
           <div><small>Серия</small>М-230411 · до 04.2027</div><div><small>Остаток серии</small>9 → <b>8</b> амп.</div>
         </div>
         <div><small style="color:var(--muted)">Комментарий кладовщика</small><div>«Разбита ампула при выдаче»</div></div>
-        <div class="photo">📷 Фото осколков · 14:21</div>
+        <div class="photo"><i data-ic="camera"></i> Фото осколков · 14:21</div>
         <div><small style="color:var(--muted)">История по материалу за 30 дней</small>
           <div class="hist"><div><span>02.10 · выдано в 305 · серия М-230411</span><span>2 амп.</span></div><div><span>18.09 · бой · серия М-230411 · подтвердила Иванова Н. П.</span><span>1 амп.</span></div></div></div>
         <div style="display:flex;gap:10px"><button class="btn primary" style="height:42px">Подтвердить списание</button><button class="btn" style="height:42px">Отклонить — с причиной…</button><button class="btn ghost" style="height:42px">Запросить уточнение</button></div>
@@ -186,5 +186,7 @@
     </div>
   </section>
 </div>
+<script src="assets/icons.js"></script>
+<script>document.querySelectorAll("[data-ic]").forEach(el => { el.outerHTML = icon(el.dataset.ic, el.dataset.cls || ""); });</script>
 </body>
 </html>

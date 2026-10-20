@@ -6,7 +6,7 @@
 <title>Быстрое списание (мобильный)</title>
 <link rel="stylesheet" href="assets/style.css">
 <style>
-  body { background: #e9ebef; }
+  body { background: var(--bg); }
   .stage { display: flex; gap: 40px; justify-content: center; align-items: flex-start; padding: 28px 24px 60px; flex-wrap: wrap; }
   .side { width: 380px; display: flex; flex-direction: column; gap: 14px; }
   .side h2 { font-size: 18px; }
@@ -20,7 +20,7 @@
   .netsw { display: flex; gap: 8px; align-items: center; }
 
   /* Телефон */
-  .phone { width: 390px; height: 844px; border-radius: 48px; background: #111; padding: 12px; box-shadow: 0 30px 60px rgba(0,0,0,.25); flex: none; }
+  .phone { width: 390px; height: 844px; border-radius: 48px; background: var(--device); padding: 12px; box-shadow: 0 30px 60px rgba(15,42,51,.28); flex: none; }
   .screen { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: var(--bg); position: relative; display: flex; flex-direction: column; font-size: 16px; }
   .statusbar { height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; font-size: 14px; font-weight: 600; background: var(--surface); }
   .statusbar .net.off { color: var(--danger); }
@@ -28,15 +28,22 @@
   .topbar .t { flex: 1; min-width: 0; }
   .topbar .t b { display: block; font-size: 16px; }
   .topbar .t small { color: var(--muted); font-size: 12.5px; }
-  .tb-btn { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); font-size: 20px; cursor: pointer; flex: none; }
-  .offline { flex: none; background: #3a2a00; color: #ffe2a0; font-size: 13.5px; padding: 8px 14px; display: flex; gap: 8px; align-items: center; }
+  .tb-btn { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; flex: none; display: grid; place-items: center; transition: background-color var(--t-fast) var(--ease); }
+  .tb-btn:active { background: var(--accent-bg); }
+  .tb-btn .ic { width: 22px; height: 22px; }
+  .rbtn .ic { color: var(--accent); }
+  .rbtn[aria-pressed="true"] .ic { color: var(--accent); }
+  .statusbar .ic { width: 15px; height: 15px; }
+  .offline .ic { width: 18px; height: 18px; flex: none; }
+  .offline { flex: none; background: var(--offline-bg); color: var(--offline-text); font-size: 13.5px; padding: 8px 14px; display: flex; gap: 8px; align-items: center; }
   .body { flex: 1; overflow: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
   .bottom { flex: none; padding: 12px 14px 26px; background: var(--surface); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
-  .big { height: 64px; border-radius: 14px; font-size: 18px; font-weight: 700; width: 100%; border: 0; cursor: pointer; background: var(--accent); color: #fff; }
-  .big[disabled] { background: #c9cfd8; color: #4c5563; cursor: not-allowed; }
+  .big { height: 64px; border-radius: 14px; font-size: 18px; font-weight: 700; width: 100%; border: 0; cursor: pointer; background: var(--accent); color: var(--on-accent); transition: background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
+  .big:active:not([disabled]) { transform: scale(.98); }
+  .big[disabled] { background: var(--disabled-fill); color: var(--disabled-text); cursor: not-allowed; }
   .big.is-pku { background: var(--pku); }
   .big.sec { background: var(--surface); color: var(--text); border: 1.5px solid var(--border-strong); font-weight: 600; }
-  .big.warn { background: #b26a00; }
+  .big.warn { background: var(--warn); }
 
   .viewfinder { flex: 1; background: radial-gradient(circle at 50% 45%, #3b4250, #12151a 70%); position: relative; display: grid; place-items: center; cursor: pointer; }
   .vf-frame { width: 260px; height: 170px; border: 3px solid rgba(255,255,255,.9); border-radius: 18px; position: relative; }
@@ -57,7 +64,7 @@
   .stepper .val { height: 64px; border-radius: 14px; border: 1.5px solid var(--border-strong); display: grid; place-items: center; font-size: 26px; font-weight: 700; background: var(--surface); }
   .stepper .val small { font-size: 14px; color: var(--muted); font-weight: 500; }
   .stepper.err .val { border-color: var(--danger); box-shadow: 0 0 0 1.5px var(--danger); }
-  .stepper.warn .val { border-color: #c98a12; box-shadow: 0 0 0 1.5px #c98a12; }
+  .stepper.warn .val { border-color: var(--warn-mark); box-shadow: 0 0 0 1.5px var(--warn-mark); }
   .mmsg { margin-top: 8px; font-size: 14px; display: flex; gap: 8px; line-height: 1.35; }
   .mmsg.err { color: var(--danger); } .mmsg.warn { color: var(--warn); } .mmsg.info { color: var(--muted); }
   .reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -73,17 +80,18 @@
   .sbtn[aria-pressed="true"] { border-color: var(--pku); background: var(--pku-bg); box-shadow: 0 0 0 1.5px var(--pku); }
   .sbtn.dashed { border-style: dashed; }
   .pku-card { border: 2px solid var(--pku); }
-  .pku-head { margin: -14px -14px 12px; padding: 8px 14px; background: var(--pku); color: #fff; font-size: 13.5px; font-weight: 700; border-radius: 12px 12px 0 0; display: flex; gap: 6px; align-items: center; }
+  .pku-head { margin: -14px -14px 12px; padding: 8px 14px; background: var(--pku); color: var(--on-accent); font-size: 13.5px; font-weight: 700; border-radius: 12px 12px 0 0; display: flex; gap: 6px; align-items: center; }
   .pku-head svg { width: 16px; height: 16px; }
   .ok-line { display: flex; gap: 8px; align-items: center; padding: 12px; border-radius: 12px; background: var(--ok-bg); color: var(--ok); font-weight: 600; font-size: 15px; }
   .ok-line button { margin-left: auto; background: none; border: 0; color: var(--accent); font-size: 14px; cursor: pointer; }
-  .photo { height: 120px; border-radius: 12px; background: repeating-linear-gradient(45deg, #dfe3e8, #dfe3e8 8px, #eef0f3 8px, #eef0f3 16px); display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+  .photo { height: 120px; border-radius: 12px; background: repeating-linear-gradient(45deg, var(--divider), var(--divider) 8px, var(--surface-2) 8px, var(--surface-2) 16px); display: grid; place-items: center; color: var(--muted); font-size: 14px; }
 
   .done { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 12px; }
-  .done .circle { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; font-size: 48px; color: #fff; background: var(--ok); }
+  .done .circle { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; font-size: 48px; color: var(--on-accent); background: var(--ok); }
+  .done .circle .ic { width: 48px; height: 48px; }
   .done .circle.wait { background: var(--pku); border-radius: 22px; transform: rotate(45deg); }
   .done .circle.wait span { transform: rotate(-45deg); }
-  .done .circle.off { background: #8a93a0; }
+  .done .circle.off { background: var(--faint); }
   .done h2 { font-size: 24px; }
   .done p { margin: 0; color: var(--muted); font-size: 15px; }
   .done .docchip { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; font-size: 14px; text-align: left; width: 100%; }
@@ -120,11 +128,12 @@
   </aside>
 </div>
 
+<script src="assets/icons.js"></script>
 <script src="assets/data.js"></script>
 <script>
 const PKU_SVG = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0 1.5 2.5v5C1.5 11.6 4.3 15 8 16c3.7-1 6.5-4.4 6.5-8.5v-5L8 0zm0 4a1.5 1.5 0 0 1 1.5 1.5c0 .6-.3 1-.8 1.3L9.5 11h-3l.8-4.2A1.5 1.5 0 0 1 8 4z"/></svg>';
 const pkuBadge = () => `<span class="pku">${PKU_SVG}Учётный</span>`;
-const ICON = { room: '🚪', expired: '⌛', broken: '💥', disposal: '♻', other: '…' };
+const ICON = { room: 'door-open', expired: 'hourglass', broken: 'package-x', disposal: 'recycle', other: 'ellipsis' };
 
 const SCEN = [
   { id: 'normal', t: '① Обычный материал — 10 секунд', mid: 'm3' },
@@ -167,8 +176,8 @@ function meter() { document.getElementById('taps').textContent = S.taps; documen
 setInterval(() => { if (S.t0 && S.screen !== 'done') meter(); }, 500);
 
 function statusbar() {
-  return `<div class="statusbar"><span>14:20</span><span class="net ${S.online ? '' : 'off'}">${S.online ? '▂▄▆ LTE' : '✕ нет сети'} · 🔋 78%</span></div>
-    ${S.online ? '' : `<div class="offline">⚠ <span>Нет связи. Всё, что вы введёте, сохранится на телефоне и проведётся при появлении сети.</span></div>`}`;
+  return `<div class="statusbar"><span>14:20</span><span class="net ${S.online ? '' : 'off'}">${S.online ? icon('signal') + ' LTE' : icon('wifi-off') + ' нет сети'} · ${icon('battery-medium')} 78%</span></div>
+    ${S.online ? '' : `<div class="offline">${icon('triangle-alert')}<span>Нет связи. Всё, что вы введёте, сохранится на телефоне и проведётся при появлении сети.</span></div>`}`;
 }
 
 function issues() {
@@ -196,12 +205,12 @@ function render() {
   let html = statusbar();
   const sc = S.screen;
   if (sc === 'scan') {
-    html += `<div class="topbar"><div class="t"><b>Списание</b><small>Основной склад · терминал подсобки</small></div><button class="tb-btn" data-go="today" aria-label="Документы за сегодня">📋</button></div>
+    html += `<div class="topbar"><div class="t"><b>Списание</b><small>Основной склад · терминал подсобки</small></div><button class="tb-btn" data-go="today" aria-label="Документы за сегодня">${icon('clipboard-list')}</button></div>
       <div class="viewfinder" id="vf"><div class="vf-frame"></div><div class="vf-hint">Наведите на штрихкод упаковки<small>или нажмите кнопку на сканере</small></div></div>
-      <div class="bottom"><button class="big sec" data-go="manual">⌨ Нет штрихкода — найти по названию</button></div>`;
+      <div class="bottom"><button class="big sec" data-go="manual">${icon('keyboard')} Нет штрихкода — найти по названию</button></div>`;
   }
   if (sc === 'manual') {
-    html += `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Назад">←</button><div class="t"><b>Поиск по названию</b></div></div>
+    html += `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Назад">${icon('arrow-left')}</button><div class="t"><b>Поиск по названию</b></div></div>
       <div class="body"><input class="search-m" value="спирт" aria-label="Поиск">
         ${MATERIALS.filter(x => /спирт/i.test(x.name)).map(x => `<button class="res-m" data-pick="${x.id}"><div><b>${x.name}</b></div><div class="mat-meta">${x.sku} ${x.accounted ? pkuBadge() : ''} · остаток ${x.stock} ${x.unit}</div></button>`).join('')}
       </div>`;
@@ -212,7 +221,7 @@ function render() {
   screenEl.innerHTML = html;
   bind();
   document.getElementById('explain').innerHTML = EXPLAIN[sc === 'item' && m().accounted ? 'pku' : sc === 'done' && !S.online ? 'offline' : sc === 'today' && S.scen === 'syncerr' ? 'syncerr' : sc] || '';
-  document.getElementById('netBtn').textContent = S.online ? '📶 Связь есть — выключить' : '✕ Связи нет — включить';
+  document.getElementById('netBtn').innerHTML = S.online ? icon('signal') + ' Связь есть — выключить' : icon('wifi-off') + ' Связи нет — включить';
 }
 
 function itemScreen() {
@@ -225,19 +234,19 @@ function itemScreen() {
       ? `<div class="ok-line">✓ Серия ${S.series} — считана с кода<button data-act="undm">Изменить</button></div>`
       : `${x.series.filter(s => s.qty).map(s => `<button class="sbtn" data-series="${s.no}" aria-pressed="${S.series === s.no}"><span><b>${s.no}</b></span><small>${s.qty} ${x.unit} · до ${s.exp}</small></button>`).join('')}
          <button class="sbtn dashed" data-series="unknown" aria-pressed="${S.series === 'unknown'}"><span>Не могу прочитать серию</span><small>решит медсестра</small></button>
-         ${S.series === 'unknown' ? (S.photo ? `<div class="ok-line">📷 Фото упаковки прикреплено<button data-act="rephoto">Переснять</button></div>` : `<button class="big sec" data-act="photo">📷 Сфотографировать упаковку</button>`) : ''}`;
+         ${S.series === 'unknown' ? (S.photo ? `<div class="ok-line">${icon('camera')} Фото упаковки прикреплено<button data-act="rephoto">Переснять</button></div>` : `<button class="big sec" data-act="photo">${icon('camera')} Сфотографировать упаковку</button>`) : ''}`;
     pku = `
       <div><div class="lbl">Серия *<em>${S.dm ? '' : 'выберите ту, что на упаковке'}</em></div><div style="display:flex;flex-direction:column;gap:8px">${serBlock}</div></div>
       <div><div class="lbl">Комментарий *<em>одно касание</em></div>
         <div class="chips-m">${['Разбита при выдаче', 'Выдано по назначению', 'Истёк срок', 'Повреждена упаковка'].map(c => `<button class="cm" data-comment="${c}" aria-pressed="${S.comment === c}">${c}</button>`).join('')}
-        <button class="cm" data-comment="🎤 «Ампула треснула в лотке при выдаче процедурной»" aria-pressed="${S.comment.startsWith('🎤')}">🎤 Надиктовать</button></div></div>`;
+        <button class="cm" data-comment="Голосом: «Ампула треснула в лотке при выдаче процедурной»" aria-pressed="${S.comment.startsWith('Голосом')}">${icon('mic')} Надиктовать</button></div></div>`;
   }
-  return `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Отмена">✕</button><div class="t"><b>Списать</b><small>Основной склад</small></div><button class="tb-btn" data-go="today">📋</button></div>
+  return `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Отмена">${icon('x')}</button><div class="t"><b>Списать</b><small>Основной склад</small></div><button class="tb-btn" data-go="today" aria-label="Документы за сегодня">${icon('clipboard-list')}</button></div>
   <div class="body">
     <div class="card ${x.accounted ? 'pku-card' : ''}">
       ${x.accounted ? `<div class="pku-head">${PKU_SVG} УЧЁТНЫЙ МАТЕРИАЛ — нужны серия и комментарий</div>` : ''}
       <div class="mat-name">${x.name}</div>
-      <div class="mat-meta">${x.sku}${x.min ? ` <span class="tag warn">▼ Неснижаемый ${x.min}</span>` : ''}${x.expired ? ` <span class="tag danger">⌛ Просрочено ${x.expired}</span>` : ''}</div>
+      <div class="mat-meta">${x.sku}${x.min ? ` <span class="tag warn">▼ Неснижаемый ${x.min}</span>` : ''}${x.expired ? ` <span class="tag danger">${icon('hourglass')} Просрочено ${x.expired}</span>` : ''}</div>
       <div class="stock-row"><span>На складе <b>${x.stock}</b> ${x.unit}</span><span>${x.min ? `можно <b>${avail(x)}</b>` : 'можно всё'}</span></div>
     </div>
     <div><div class="lbl">Количество</div>
@@ -245,7 +254,7 @@ function itemScreen() {
       ${iss.e.map(t => `<div class="mmsg err"><b>✕</b><span>${t}</span></div>`).join('')}${iss.w.map(t => `<div class="mmsg warn"><b>!</b><span>${t}</span></div>`).join('')}
     </div>
     <div><div class="lbl">Причина${S.lastReason && S.reason === S.lastReason ? '<em>как в прошлый раз</em>' : ''}</div>
-      <div class="reasons">${reasons.map(r => `<button class="rbtn" data-reason="${r.id}" aria-pressed="${S.reason === r.id}"><span>${S.reason === r.id ? `<span class="chk">✓</span> ` : ``}${ICON[r.id]} ${r.short}</span>${x.accounted && (r.id === 'broken' || r.id === 'disposal') ? '<small>◆ с подтверждением медсестры</small>' : ''}</button>`).join('')}</div>
+      <div class="reasons">${reasons.map(r => `<button class="rbtn" data-reason="${r.id}" aria-pressed="${S.reason === r.id}"><span>${S.reason === r.id ? `<span class="chk">✓</span> ` : ``}${icon(ICON[r.id])} ${r.short}</span>${x.accounted && (r.id === 'broken' || r.id === 'disposal') ? '<small>◆ с подтверждением медсестры</small>' : ''}</button>`).join('')}</div>
       ${x.accounted ? '<div class="mmsg info">«Прочее» для учётных недоступно — нужна конкретная причина.</div>' : ''}
     </div>
     ${S.reason === 'room' ? `<div><div class="lbl">Кабинет<em>последние</em></div><div class="chips-m">${['203', '101', '305', '412'].map(r => `<button class="cm" data-room="${r}" aria-pressed="${S.room === r}">${r}</button>`).join('')}<button class="cm">Другой…</button></div></div>` : ''}
@@ -260,7 +269,7 @@ function itemScreen() {
 function doneScreen() {
   const x = m(), r = REASONS.find(r => r.id === S.reason);
   const docName = `«${r.name}${S.reason === 'room' ? ' · ' + S.room : ''}»`;
-  if (!S.online) return `<div class="done"><div class="circle off">⏳</div><h2>Сохранено на телефоне</h2>
+  if (!S.online) return `<div class="done"><div class="circle off">${icon('wifi-off')}</div><h2>Сохранено на телефоне</h2>
     <p>${x.name}, ${S.qty} ${x.unit}</p>
     <div class="docchip"><b>Не проведено — ждёт сети.</b><br>Как только связь появится, проверим остаток на сервере и проведём. <b>Коробку можно отдавать.</b> Если что-то не сойдётся, придёт уведомление.</div>
     <button class="big sec" data-go="scan">Сканировать следующее</button><button class="btn ghost" data-go="today">Очередь: 1 позиция ждёт сети</button></div>`;
@@ -268,7 +277,7 @@ function doneScreen() {
     <p>${x.name}, ${S.qty} ${x.unit} · серия ${S.series === 'unknown' ? 'не определена' : S.series}</p>
     <div class="docchip">Запрос у <b>${APPROVER.name}</b>. Пока она не ответит, ${S.qty} ${x.unit} в резерве. <b>Ждать не нужно</b> — о решении придёт уведомление.</div>
     <div class="progress"><i></i></div><button class="big sec" data-go="scan">Сканировать следующее</button></div>`;
-  return `<div class="done"><div class="circle">✓</div><h2>Списано</h2>
+  return `<div class="done"><div class="circle">${icon('check')}</div><h2>Списано</h2>
     <p>${x.name} — ${S.qty} ${x.unit}</p>
     <div class="docchip">Добавлено в документ дня ${docName}. Сегодня в нём ${S.reason === 'room' && S.room === '203' ? 4 : 1} поз.<br><span style="color:var(--muted)">Остаток: ${x.stock - S.qty} ${x.unit}</span></div>
     <div class="progress"><i></i></div>
@@ -279,14 +288,14 @@ function todayScreen() {
   const r = id => REASONS.find(x => x.id === id).name;
   const syncErr = S.scen === 'syncerr';
   const queued = !S.online || syncErr;
-  return `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Назад">←</button><div class="t"><b>Сегодня, 14 октября</b><small>${TODAY.length + (queued ? 1 : 0)} ${TODAY.length + (queued ? 1 : 0) > 4 ? 'документов' : 'документа'} · по одному на причину</small></div></div>
+  return `<div class="topbar"><button class="tb-btn" data-go="scan" aria-label="Назад">${icon('arrow-left')}</button><div class="t"><b>Сегодня, 14 октября</b><small>${TODAY.length + (queued ? 1 : 0)} ${TODAY.length + (queued ? 1 : 0) > 4 ? 'документов' : 'документа'} · по одному на причину</small></div></div>
   <div class="body">
     ${syncErr ? `<div class="sync-err"><h3>✕ Не проведено: перчатки L</h3>
       <div style="font-size:14px">Пока не было связи, остаток изменился: на сервере доступно <b>8 упак.</b>, а вы списали 10. Коробку уже отдали в кабинет 203?</div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px"><button class="big" data-act="fix8">Списать 8 — сколько есть</button><button class="big sec" data-act="handoff">Разберусь с компьютера</button></div>
       <div class="mmsg info">Если выдали больше, чем числится, — это расхождение. Его разберут при инвентаризации, черновик сохранится.</div></div>` : ''}
-    ${!S.online && !syncErr ? `<div class="doc"><div class="doc-h">⏳ <b>Ждёт сети</b><span class="tag">не проведено</span></div><ul><li>${m() ? m().name : 'Перчатки нитриловые, M'}<span class="q">${S.qty} шт.</span></li></ul></div>` : ''}
-    ${TODAY.map(d => `<div class="doc"><div class="doc-h">${ICON[d.reason]} <b>${r(d.reason)}${d.room ? ' · каб. ' + d.room : ''}</b>${d.status === 'ok' ? '<span class="tag ok">✓ проведён</span>' : '<span class="tag" style="color:var(--pku)">◆ ждёт подтверждения</span>'}</div>
+    ${!S.online && !syncErr ? `<div class="doc"><div class="doc-h">${icon('clock')} <b>Ждёт сети</b><span class="tag">не проведено</span></div><ul><li>${m() ? m().name : 'Перчатки нитриловые, M'}<span class="q">${S.qty} шт.</span></li></ul></div>` : ''}
+    ${TODAY.map(d => `<div class="doc"><div class="doc-h">${icon(ICON[d.reason])} <b>${r(d.reason)}${d.room ? ' · каб. ' + d.room : ''}</b>${d.status === 'ok' ? '<span class="tag ok">✓ проведён</span>' : '<span class="tag" style="color:var(--pku)">◆ ждёт подтверждения</span>'}</div>
       <ul>${d.items.map(i => `<li>${i[0]}<span class="q">${i[1]}</span></li>`).join('')}</ul></div>`).join('')}
     <div class="note">Одна причина — один документ. Новую позицию с той же причиной (и кабинетом) система добавит в существующий документ дня, а с другой причиной — создаст новый.</div>
   </div>`;

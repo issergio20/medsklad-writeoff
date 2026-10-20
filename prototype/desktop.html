@@ -8,12 +8,15 @@
 <style>
   body { min-width: 1440px; }
   .app-header { display: flex; align-items: center; gap: 28px; height: 56px; padding: 0 32px; background: var(--surface); border-bottom: 1px solid var(--border); }
-  .logo { font-weight: 800; letter-spacing: -.01em; }
-  .logo span { color: var(--accent); }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
+  .logo .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; }
+  .logo .mark .ic { width: 16px; height: 16px; }
+  .logo b { color: var(--accent); font-weight: inherit; }
   .nav { display: flex; gap: 4px; }
-  .nav a { padding: 8px 12px; border-radius: 6px; color: var(--muted); text-decoration: none; }
+  .nav a { padding: 8px 12px; border-radius: 8px; color: var(--muted); text-decoration: none; font-weight: 500; transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+  .nav a:hover { background: var(--surface-2); color: var(--text); }
   .nav a.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
-  .nav .count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; background: var(--pku); color: #fff; font-size: 11px; text-align: center; }
+  .nav .count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; background: var(--pku); color: var(--on-accent); font-size: 11px; text-align: center; }
   .user { margin-left: auto; color: var(--muted); font-size: 13px; }
   .user b { color: var(--text); }
 
@@ -24,20 +27,20 @@
   .autosave { color: var(--faint); font-size: 12.5px; margin-left: auto; }
   .linked { font-size: 12.5px; }
 
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
   .doc-head { padding: 16px 20px; display: grid; grid-template-columns: 280px 1fr; gap: 20px 28px; }
   .doc-head .wide { grid-column: 1 / -1; }
   .ro-wh { height: 36px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
   .ro-wh small { color: var(--muted); font-weight: 400; }
   .seg { display: inline-flex; border: 1px solid var(--border-strong); border-radius: var(--radius); overflow: hidden; }
-  .seg button { height: 36px; padding: 0 16px; border: 0; border-right: 1px solid var(--border-strong); background: var(--surface); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .seg button { height: 36px; padding: 0 16px; border: 0; border-right: 1px solid var(--divider); background: var(--surface); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
   .seg button:last-child { border-right: 0; }
   .seg button:hover { background: var(--surface-2); }
-  .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; font-weight: 600; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
   .seg button[aria-pressed="true"]::before { content: "✓"; }
   .seg.err { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
   .seg button .mk { font-size: 11px; color: var(--danger); font-weight: 700; }
-  .seg button[aria-pressed="true"] .mk { color: #ffd2cd; }
+  .seg button[aria-pressed="true"] .mk { color: var(--danger-bg); }
   .reason-row { display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap; }
   .ledger { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
   .sub-fields { display: flex; gap: 16px; margin-top: 12px; }
@@ -52,9 +55,9 @@
   .scan-ind.off { color: var(--faint); } .scan-ind.off .dot { background: var(--faint); box-shadow: none; }
   .filters { margin-left: auto; display: flex; gap: 4px; }
   .filters button { height: 32px; padding: 0 12px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; }
-  .filters button[aria-pressed="true"] { background: var(--text); color: #fff; border-color: var(--text); }
+  .filters button[aria-pressed="true"] { background: var(--text); color: var(--on-accent); border-color: var(--text); }
 
-  .results { position: absolute; left: 0; right: 0; top: 46px; z-index: 30; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: 0 12px 32px rgba(16,24,40,.16); max-height: 460px; overflow: auto; }
+  .results { position: absolute; left: 0; right: 0; top: 46px; z-index: 30; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: var(--shadow-pop); max-height: 460px; overflow: auto; }
   .res { display: grid; grid-template-columns: 1fr 190px 120px; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; align-items: center; }
   .res:last-child { border-bottom: 0; }
   .res.active, .res:hover { background: var(--accent-bg); }
@@ -67,16 +70,17 @@
 
   .tbl-wrap { max-height: calc(100vh - 330px); min-height: 280px; overflow: auto; }
   table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  tbody.line:hover td { background-color: var(--surface-2); }
   thead th { position: sticky; top: 0; z-index: 5; background: var(--surface-2); text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
   td { padding: 10px 10px; vertical-align: top; border-bottom: 1px solid var(--border); }
   tbody.line.has-sub tr.main td { border-bottom: 0; }
   tbody.line tr.sub td { padding-top: 0; }
   tbody.line.is-err { box-shadow: inset 4px 0 0 var(--danger); }
   tbody.line.is-err td:first-child { box-shadow: inset 4px 0 0 var(--danger); }
-  tbody.line.is-warn td:first-child { box-shadow: inset 4px 0 0 #d9a441; }
+  tbody.line.is-warn td:first-child { box-shadow: inset 4px 0 0 var(--warn-edge); }
   tbody.line.is-pku td:first-child { background: linear-gradient(90deg, transparent 4px, var(--pku-bg) 4px); }
   tbody.line.flash td { animation: flash 1.4s ease-out; }
-  @keyframes flash { from { background: #fff3b0; } to { background: transparent; } }
+  @keyframes flash { from { background: var(--flash); } to { background: transparent; } }
   .c-n { width: 44px; color: var(--faint); font-variant-numeric: tabular-nums; }
   .c-name { min-width: 360px; }
   .c-unit { width: 64px; color: var(--muted); }
@@ -98,13 +102,13 @@
   .dash { color: var(--faint); }
   .st { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
   .st.ok { color: var(--ok); } .st.err { color: var(--danger); } .st.warn { color: var(--warn); } .st.wait { color: var(--pku); }
-  .st .sh { display: inline-grid; place-items: center; width: 18px; height: 18px; font-size: 11px; color: #fff; }
+  .st .sh { display: inline-grid; place-items: center; width: 18px; height: 18px; font-size: 11px; color: var(--on-accent); }
   .st.ok .sh { background: var(--ok); border-radius: 50%; }
   .st.err .sh { background: var(--danger); border-radius: 3px; }
-  .st.warn .sh { background: #c98a12; clip-path: polygon(50% 0, 100% 100%, 0 100%); padding-top: 4px; }
+  .st.warn .sh { background: var(--warn-mark); clip-path: polygon(50% 0, 100% 100%, 0 100%); padding-top: 4px; }
   .st.wait .sh { background: var(--pku); border-radius: 3px; transform: rotate(45deg); }
   .st.wait .sh span { transform: rotate(-45deg); }
-  .subbox { display: grid; grid-template-columns: 1fr; gap: 6px; margin-left: 44px; padding: 10px 12px; border: 1px dashed #cdb9ef; border-radius: 8px; background: #fbf9ff; }
+  .subbox { display: grid; grid-template-columns: 1fr; gap: 6px; margin-left: 44px; padding: 10px 12px; border: 1px dashed var(--pku-border); border-radius: 8px; background: var(--pku-surface); }
   .subbox label { font-size: 12px; font-weight: 600; color: var(--pku); }
   .subbox .row { display: flex; gap: 8px; align-items: center; }
   .subbox .input { flex: 1; }
@@ -113,11 +117,12 @@
   .chip:hover { background: var(--surface-2); }
 
   .empty { padding: 56px 20px; text-align: center; color: var(--muted); }
-  .empty .big { font-size: 40px; margin-bottom: 8px; }
+  .empty .big { color: var(--accent); margin-bottom: 10px; }
+  .empty .big .ic { width: 40px; height: 40px; }
   .empty h3 { color: var(--text); font-size: 16px; margin-bottom: 6px; }
   .empty.locked { background: repeating-linear-gradient(-45deg, var(--surface), var(--surface) 10px, var(--surface-2) 10px, var(--surface-2) 20px); }
 
-  .footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 -6px 20px rgba(16,24,40,.06); }
+  .footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--border); box-shadow: var(--shadow-dock); }
   .footer-in { width: 1376px; margin: 0 auto; display: flex; gap: 28px; align-items: center; padding: 12px 0; }
   .totals { display: flex; gap: 24px; font-variant-numeric: tabular-nums; }
   .totals div small { display: block; font-size: 11.5px; color: var(--muted); }
@@ -132,8 +137,8 @@
   .actions .btn { height: 42px; padding: 0 20px; }
 
   /* Модалка подтверждения */
-  .overlay { position: fixed; inset: 0; z-index: 100; background: rgba(16, 20, 28, .5); display: flex; align-items: flex-start; justify-content: center; padding: 48px 0; overflow: auto; }
-  .modal { width: 820px; background: var(--surface); border-radius: 14px; box-shadow: 0 24px 64px rgba(0,0,0,.25); }
+  .overlay { position: fixed; inset: 0; z-index: 100; background: var(--scrim); display: flex; align-items: flex-start; justify-content: center; padding: 48px 0; overflow: auto; }
+  .modal { width: 820px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-modal); }
   .m-head { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); }
   .m-head h2 { font-size: 20px; }
   .m-sum { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 4px 32px; margin-top: 12px; font-size: 13px; }
@@ -157,7 +162,7 @@
   .mode small { display: block; color: var(--muted); }
   .irrev { display: flex; gap: 12px; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); }
   .irrev .clock { font-size: 22px; }
-  .irrev.late { background: var(--warn-bg); border-color: #f0d49a; }
+  .irrev.late { background: var(--warn-bg); border-color: var(--warn-border); }
   .m-foot { display: flex; gap: 10px; justify-content: flex-end; align-items: center; padding: 14px 24px 20px; border-top: 1px solid var(--border); }
   .m-foot .left { margin-right: auto; color: var(--muted); font-size: 12.5px; }
   .m-foot .btn { height: 42px; padding: 0 20px; }
@@ -184,7 +189,7 @@
 </div>
 
 <header class="app-header">
-  <div class="logo">Мед<span>Склад</span></div>
+  <div class="logo"><span class="mark" id="logoMark"></span><span>Мед<b>Склад</b></span></div>
   <nav class="nav">
     <a href="#">Остатки</a><a href="#">Приход</a><a href="#" class="active">Списание</a><a href="#">Документы</a>
     <a href="deadends.html#nurse">На подтверждении<span class="count">2</span></a>
@@ -209,11 +214,11 @@
   <section class="card table-card">
     <div class="toolbar">
       <div class="search">
-        <span class="s-ico">⌕</span>
+        <span class="s-ico" id="sIco"></span>
         <input id="search" class="input" autocomplete="off" placeholder="Название, артикул или скан штрихкода">
         <div id="results" class="results" hidden></div>
       </div>
-      <button class="btn" id="simScan" title="В реальности — сканер, подключённый как клавиатура">▣ Сымитировать скан</button>
+      <button class="btn" id="simScan" title="В реальности — сканер, подключённый как клавиатура"><span id="scanIco"></span>Сымитировать скан</button>
       <span class="scan-ind" id="scanInd"><span class="dot"></span>Сканер готов</span>
       <div class="filters" id="filters"></div>
     </div>
@@ -231,6 +236,7 @@
 <div id="modalRoot"></div>
 <div class="toast-wrap" id="toasts"></div>
 
+<script src="assets/icons.js"></script>
 <script src="assets/data.js"></script>
 <script>
 const PKU_SVG = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0 1.5 2.5v5C1.5 11.6 4.3 15 8 16c3.7-1 6.5-4.4 6.5-8.5v-5L8 0zm0 4a1.5 1.5 0 0 1 1.5 1.5c0 .6-.3 1-.8 1.3L9.5 11h-3l.8-4.2A1.5 1.5 0 0 1 8 4z"/></svg>';
@@ -332,7 +338,7 @@ function renderConflict() {
   const el = document.getElementById('conflict');
   const pku = S.lines.filter(l => findMaterial(l.mid).accounted);
   if (S.reason === 'other' && pku.length) {
-    el.innerHTML = `<div class="banner err"><div class="b-ico">⛔</div><div class="b-body">
+    el.innerHTML = `<div class="banner err"><div class="b-ico">${icon("octagon-x")}</div><div class="b-body">
       <div class="b-title">«Прочее» не подходит для учётных материалов — в документе их ${pku.length}</div>
       <div>${pku.map(l => esc(findMaterial(l.mid).name)).join('; ')}. Проверяющим нужна конкретная причина. Оставьте «Прочее» для обычных материалов, а учётные вынесите в отдельный черновик — или смените причину для всего документа.</div>
       <div class="b-actions"><button class="btn primary sm" id="splitPku">Вынести учётные (${pku.length}) в новый черновик</button><button class="btn sm" id="changeReason">Сменить причину</button></div>
@@ -365,7 +371,7 @@ function renderResults() {
       if (m.accounted) tags.push(pkuBadge());
       if (m.accounted && S.reason === 'other') tags.push('<span class="tag danger">✕ нельзя с «Прочее»</span>');
       if (m.min) tags.push(`<span class="tag warn">▼ Неснижаемый ${m.min}</span>`);
-      if (m.expired) tags.push(`<span class="tag danger">⌛ Просрочено ${m.expired}</span>`);
+      if (m.expired) tags.push(`<span class="tag danger">${icon("hourglass")} Просрочено ${m.expired}</span>`);
       if (inDoc) tags.push(`<span class="tag info">Уже в документе: ${inDoc}</span>`);
       return `<div class="res ${i === resIdx ? 'active' : ''}" data-i="${i}">
         <div><div class="r-name">${esc(m.name)}</div><div class="r-meta">${m.sku}${tags.join('')}</div></div>
@@ -451,7 +457,7 @@ function lineHtml(l, n) {
   return `<tbody class="line ${m.accounted ? 'has-sub is-pku' : ''} is-${st.cls}" data-uid="${l.uid}">
     <tr class="main">
       <td class="c-n">${n}</td>
-      <td class="c-name"><div class="nm">${esc(m.name)}</div><div class="nm-meta">${m.sku}${m.accounted ? pkuBadge() : ''}${m.min ? `<span class="tag warn">▼ Неснижаемый ${m.min}</span>` : ''}${m.expired ? `<span class="tag danger">⌛ Просрочено ${m.expired}</span>` : ''}</div></td>
+      <td class="c-name"><div class="nm">${esc(m.name)}</div><div class="nm-meta">${m.sku}${m.accounted ? pkuBadge() : ''}${m.min ? `<span class="tag warn">▼ Неснижаемый ${m.min}</span>` : ''}${m.expired ? `<span class="tag danger">${icon("hourglass")} Просрочено ${m.expired}</span>` : ''}</div></td>
       <td class="c-unit">${m.unit}</td>
       <td class="c-stock">${stockCell(m)}</td>
       <td class="c-qty"><div class="qty"><input class="input ${qErr ? 'err' : qWarn ? 'warn' : ''}" inputmode="decimal" value="${esc(l.qty)}" aria-label="Количество" data-f="qty"><span class="u">${m.unit}</span></div>
@@ -462,7 +468,7 @@ function lineHtml(l, n) {
           <option value="unknown" ${l.series === 'unknown' ? 'selected' : ''}>Серия нечитаема → решит медсестра</option>
         </select>` : '<span class="dash">не требуется</span>'}</td>
       <td class="c-st" data-st>${st.html}</td>
-      <td class="c-del"><button class="btn icon ghost" data-del="${l.uid}" title="Удалить строку" aria-label="Удалить строку">🗑</button></td>
+      <td class="c-del"><button class="btn icon ghost" data-del="${l.uid}" title="Удалить строку" aria-label="Удалить строку">${icon("trash-2")}</button></td>
     </tr>
     ${m.accounted ? `<tr class="sub"><td colspan="8"><div class="subbox">
       <label for="c${l.uid}">Комментарий к учётному * — что случилось и кто получил</label>
@@ -489,11 +495,11 @@ function renderTable() {
   document.querySelectorAll('[data-filter]').forEach(b => b.onclick = () => { S.filter = b.dataset.filter; renderTable(); });
 
   if (!S.warehouse) {
-    wrap.innerHTML = `<div class="empty locked"><div class="big">🏬</div><h3>Склад не выбран</h3>Остатки, серии и неснижаемые остатки у каждого склада свои. Выберите склад вверху — после этого включатся поиск и сканер.</div>`;
+    wrap.innerHTML = `<div class="empty locked"><div class="big">${icon("warehouse","xl")}</div><h3>Склад не выбран</h3>Остатки, серии и неснижаемые остатки у каждого склада свои. Выберите склад вверху — после этого включатся поиск и сканер.</div>`;
     return;
   }
   if (!S.lines.length) {
-    wrap.innerHTML = `<div class="empty"><div class="big">▣</div><h3>Пока пусто — отсканируйте первую упаковку</h3>Сканер уже слушает. Или начните вводить название или артикул в поиске. Повторный скан того же товара добавит +1 к количеству.</div>`;
+    wrap.innerHTML = `<div class="empty"><div class="big">${icon("scan-barcode","xl")}</div><h3>Пока пусто — отсканируйте первую упаковку</h3>Сканер уже слушает. Или начните вводить название или артикул в поиске. Повторный скан того же товара добавит +1 к количеству.</div>`;
     return;
   }
   let rows = S.lines.map((l, i) => ({ l, n: i + 1 }));
@@ -618,7 +624,7 @@ function openConfirm() {
           <label><input type="radio" name="mode" value="split" ${S.mode === 'split' ? 'checked' : ''}><span><b>Разделить на два документа</b> (рекомендуем)<small>Обычные (${direct.length}) спишутся сейчас, учётные (${appr.length}) — после подтверждения. Причина у обоих одна: «${reasonName(now)}».</small></span></label>
           <label><input type="radio" name="mode" value="single" ${S.mode === 'single' ? 'checked' : ''}><span><b>Одним документом</b><small>Весь документ, включая ${direct.length} обычных позиций, будет ждать подтверждения.</small></span></label></div>` : ''}
         ${directGroup}${apprGroup}
-        <div class="irrev ${S.late ? 'late' : ''}"><div class="clock">${S.late ? '⏰' : '🔒'}</div><div>
+        <div class="irrev ${S.late ? 'late' : ''}"><div class="clock">${icon(S.late ? 'alarm-clock' : 'lock', 'lg')}</div><div>
           <b>Изменить проведённое списание нельзя.</b> Можно только отменить его целиком — <b>до 23:59 сегодня</b> (${S.late ? '<b>осталось 9 минут</b>' : `осталось ${Math.floor(minLeft / 60)} ч ${minLeft % 60} мин`}).${appr.length ? ' Отмена документа с учётными тоже потребует подтверждения медсестры.' : ''}
           ${S.late ? '<div style="margin-top:6px">После полуночи исправить ошибку можно будет только корректирующим документом (сторно). Если сомневаетесь в количествах — сохраните черновик и проверьте. Просрочку при этом нужно провести сегодня.</div>' : ''}
         </div></div>
@@ -695,6 +701,9 @@ document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => {
   closeModal(); renderAll();
 });
 
+document.getElementById("sIco").innerHTML = icon("search");
+document.getElementById("scanIco").innerHTML = icon("scan-barcode");
+document.getElementById("logoMark").innerHTML = icon("box");
 renderAll();
 </script>
 </body>
